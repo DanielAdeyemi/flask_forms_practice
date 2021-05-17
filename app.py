@@ -27,7 +27,7 @@ def new_item():
 def get_db():
   db = getattr(g, "_database", None)
   if db is None:
-    g._database = sqlite3.connect("db/globomantics.db")
+    db = g._database = sqlite3.connect("db/globomantics.db")
   return db
 
 @app.teardown_appcontext
