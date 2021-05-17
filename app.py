@@ -12,6 +12,15 @@ def new_item():
   conn = get_db()
   c = conn.cursor()
   if request.method == "POST":
+    c.execute("""INSERT INTO items(title, description, price, image, category_id, subcategory_id) VALUES(?,?,?,?,?,?)""", 
+              (request.form.get("title"),
+              request.form.get("description"),
+              float(request.form.get("price")),
+              "",
+              1,
+              1
+              ))
+    conn.commit()
     return redirect(url_for("home"))
   return render_template("new_item.html")
 
