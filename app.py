@@ -5,7 +5,31 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-  return render_template("index.html")
+  conn = get_db()
+  c = conn.cursor()
+
+  items_from_db = c.execute("""SELECT 
+                  i.id, i.titile, i.description, i.image, c.name, s.name
+                  FROM
+                  items AS i
+                  INNER JOIN categories AS c ON i.category_id = c.id
+                  INNER JOIN subcategories AS s ON i.subcategory_id = s.id
+                  ORDERED BY i.id DESC
+  """)
+
+  items = []
+  for row in items_from_db:
+    item = {
+      "id": row[0],
+      "title": row[1],
+      "description": row[2],
+      "price": row[3],
+      "image": row[4],
+      "category": row[5],
+      "subcategory": row[6]
+    }
+    items.append(item)
+  return render_template("index.html", itmes=items)
 
 @app.route("/item/new", methods=["GET", "POST"])
 def new_item():
