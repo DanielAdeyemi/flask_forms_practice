@@ -2,10 +2,26 @@
 
 {% set active_page = 'new_item' %}
 
-{% block title %} New Item | {% endblock %}
+{% block title %} Add New Item | {% endblock %}
 
 {% block content %}
 
-
+<div class="row">
+  <div class="col-lg-7 offset-lg-2 my-5">
+    <h1>Add new Item</h1> <hr>
+    <form action="{{ url_for('new_item') }}" method="post">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" name="description"  rows="3"></textarea>
+      </div>
+      <hr>
+      <input class="form-control btn btn-primary" type="submit" value="Submit">
+    </form>
+  </div>
+</div>
 
 {% endblock %}

@@ -14,3 +14,7 @@ body {
 a:hover {
   text-decoration: none;
 }
+
+textarea {
+  resize: none;
+}
