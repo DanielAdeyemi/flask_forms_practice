@@ -6,3 +6,11 @@ body {
   padding-top: 0rem;
   padding-bottom: 0rem;
 }
+
+.card-img-top {
+  object-fit: cover;
+}
+
+a:hover {
+  text-decoration: none;
+}
