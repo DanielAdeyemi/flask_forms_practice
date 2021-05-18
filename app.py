@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, g
+from flask import Flask, render_template, request, redirect, url_for, g, flash
 import sqlite3
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "secretkey"
 
 @app.route("/")
 def home():
@@ -45,6 +46,7 @@ def new_item():
               1
               ))
     conn.commit()
+    flash("Item {} has been successfully created".format(request.form.get("title")), "success")
     return redirect(url_for("home"))
   return render_template("new_item.html")
 
