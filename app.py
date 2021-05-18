@@ -44,6 +44,7 @@ def home():
 def new_item():
   conn = get_db()
   c = conn.cursor()
+  form = NewItemForm()
   if request.method == "POST":
     c.execute("""INSERT INTO items(title, description, price, image, category_id, subcategory_id) VALUES(?,?,?,?,?,?)""", 
               (request.form.get("title"),
@@ -56,7 +57,7 @@ def new_item():
     conn.commit()
     flash("Item {} has been successfully created".format(request.form.get("title")), "success")
     return redirect(url_for("home"))
-  return render_template("new_item.html")
+  return render_template("new_item.html", form=form)
 
 def get_db():
   db = getattr(g, "_database", None)
