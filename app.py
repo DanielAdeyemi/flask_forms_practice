@@ -144,15 +144,15 @@ def edit_item(item_id):
                   form.price.data,
                   item_id
                 ))
-    conn.commit()
-    flash("Item {} has been updated".format(form.title.data), "success")
-    return redirect(url_for("item", item_id=item_id))
+      conn.commit()
+      flash("Item {} has been updated".format(form.title.data), "success")
+      return redirect(url_for("item", item_id=item_id))
 
-    form.title.data = item["title"]
-    form.description.data = item["description"]
-    form.price.data = item["price"]
-    if form.errors:
-      flash("{}".format(form.errors), "danger")
+  form.title.data = item["title"]
+  form.description.data = item["description"]
+  form.price.data = item["price"]
+  if form.errors:
+    flash("{}".format(form.errors), "danger")
   return render_template("edit_item.html", item=item, form=form)
   
   return redirect(url_for("home"))
