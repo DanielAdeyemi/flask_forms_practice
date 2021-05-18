@@ -29,7 +29,7 @@ def home():
       "subcategory": row[6]
     }
     items.append(item)
-  return render_template("index.html", itmes=items)
+  return render_template("index.html", items=items)
 
 @app.route("/item/new", methods=["GET", "POST"])
 def new_item():

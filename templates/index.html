@@ -10,7 +10,7 @@
     </div>
     <div class="col-lg-9">
       <div class="row my-5 card-wrapper">
-        {%if items%}
+        {% if items %}
         {% for item in items %}
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card h-100">
@@ -23,7 +23,7 @@
                 <h4 class="card-title">
                   <a href="#">{{ item.title }}</a>
                 </h4>
-                <h5>{{ "$%.2f" | format(item.price) }}</h5>
+                <h5>{{ "$%.2f"|format(item.price) }}</h5>
                 <p class="card-text">{{ item.description }}</p>
               </div>
               <div class="card-footer">
