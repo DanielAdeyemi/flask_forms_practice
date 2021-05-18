@@ -77,7 +77,7 @@ def new_item():
     flash(" {} ".format(form.errors), "danger")
   return render_template("new_item.html", form=form)
 
-@app.route("/item/<int:item_id>")
+@app.route("/item/<item_id>")
 def item(item_id):
   c = get_db().cursor()
   item_from_db = c.execute("""SELECT 
@@ -87,8 +87,7 @@ def item(item_id):
                 INNER JOIN categories AS c ON i.category_id = c.id
                 INNER JOIN subcategories AS s ON i.subcategory_id = s.id
                 WHERE i.id = ?""",
-                (item_id)
-  )
+                (item_id))
   row = c.fetchone()
   try:
     item = {
