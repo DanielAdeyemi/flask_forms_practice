@@ -110,7 +110,7 @@ def item(item_id):
     return render_template("item.html", item=item, deleteItemForm=deleteItemForm)
   return redirect(url_for("home"))
 
-@app.route("item/item_id/delete", methods=["POST"])
+@app.route("/item/<item_id>/delete", methods=["POST"])
 def delete_item(item_id):
   conn = get_db()
   c = conn.cursor()
@@ -126,7 +126,7 @@ def delete_item(item_id):
   if item:
     c.execute("DELETE FROM items WHERE id = ?", (item_id))
     conn.commit()
-    flash("Item {} has been successfully deleted".format(item["title"], "success"))
+    flash("Item {} has been successfully deleted".format(item["title"]), "success")
   else:
     flash("This item doesn't exist", "danger")
 
