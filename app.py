@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, g, flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField
+from wtforms import StringField, TextAreaField, SubmitField, SelectField
 import sqlite3
 
 app = Flask(__name__)
@@ -9,7 +9,9 @@ app.config["SECRET_KEY"] = "secretkey"
 class NewItemForm(FlaskForm):
   title = StringField("Title")
   price = StringField("Price")
-  description = TextAreaField("Description")
+  description = TextAreaField("Description")  
+  category = SelectField("Category")
+  subcategory = SelectField("Subcategory")
   submit = SubmitField("Submit")
 
 @app.route("/")

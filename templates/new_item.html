@@ -10,7 +10,7 @@
   <div class="col-lg-7 offset-lg-2 my-5">
     <h1>Add new Item</h1> <hr>
     <form action="{{ url_for('new_item') }}" method="post">
-      {{ form.hidden.tag() }}
+      {{ form.hidden_tag() }}
       <div class="form-group">
         {{ form.title.label }}
         {{ form.title(class="form-control") }}
