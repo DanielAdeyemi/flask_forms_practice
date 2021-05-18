@@ -19,6 +19,9 @@ class NewItemForm(FlaskForm):
   subcategory = SelectField("Subcategory", coerce=int)
   submit = SubmitField("Submit")
 
+class DeleteItemForm(FlaskForm):
+  submit = SubmitField("Delete item")
+
 @app.route("/")
 def home():
   conn = get_db()
@@ -103,8 +106,32 @@ def item(item_id):
     item = {}
   
   if item:
-    return render_template("item.html", item=item)
+    deleteItemForm = DeleteItemForm()
+    return render_template("item.html", item=item, deleteItemForm=deleteItemForm)
   return redirect(url_for("home"))
+
+@app.route("item/item_id/delete", methods=["POST"])
+def delete_item(item_id):
+  conn = get_db()
+  c = conn.cursor()
+  item_from_db = c.execute("SELECT * FROM items WHERE id = ?", (item_id))
+  row = c.fetchone()
+  try:
+    item = {
+      "id": row[0],
+      "title": row[1]
+    }
+  except:
+    item = {}
+  if item:
+    c.execute("DELETE FROM items WHERE id = ?", (item_id))
+    conn.commit()
+    flash("Item {} has been successfully deleted".format(item["title"], "success"))
+  else:
+    flash("This item doesn't exist", "danger")
+
+  return redirect(url_for("home"))
+
 
 def get_db():
   db = getattr(g, "_database", None)
