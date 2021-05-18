@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, g, flash
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField, SubmitField
 import sqlite3
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secretkey"
+
+class NewItemForm(FlaskForm):
+  title = StringField("Title")
+  price = StringField("Price")
+  description = TextAreaField("Description")
+  submit = SubmitField("Submit")
 
 @app.route("/")
 def home():
