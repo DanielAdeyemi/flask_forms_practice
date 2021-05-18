@@ -10,17 +10,23 @@ import sqlite3
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secretkey"
 
-class NewItemForm(FlaskForm):
+class ItemForm(FlaskForm):
   title = StringField("Title", validators=[InputRequired("Title is required"), DataRequired("No empty tricks!"), Length(min=2, max=20, message="Title should be between 2 and 20 charachters long")])
   price = FloatField("Price")
   description = TextAreaField("Description", validators=[InputRequired("Title is required"), DataRequired(
       "No empty tricks!"), Length(min=5, max=40, message="Title should be between 5 and 40 charachters long")])
+  
+class NewItemForm(ItemForm):
   category = SelectField("Category", coerce=int)
   subcategory = SelectField("Subcategory", coerce=int)
   submit = SubmitField("Submit")
 
 class DeleteItemForm(FlaskForm):
   submit = SubmitField("Delete item")
+
+class EditItemForm(ItemForm):
+  submit = SubmitField("Update Item")
+
 
 @app.route("/")
 def home():
@@ -127,7 +133,27 @@ def edit_item(item_id):
   except:
     item = {}
   if item:
-    return render_template("edit_item.html")
+    form = EditItemForm()
+    if form.validate_on_submit():
+      c.execute("""UPDATE items SET
+                title = ?, description = ?, price = ?
+                WHERE id = ?""",
+                (
+                  form.title.data,
+                  form.description.data,
+                  form.price.data,
+                  item_id
+                ))
+    conn.commit()
+    flash("Item {} has been updated".format(form.title.data), "success")
+    return redirect(url_for("item", item_id=item_id))
+
+    form.title.data = item["title"]
+    form.description.data = item["description"]
+    form.price.data = item["price"]
+    if form.errors:
+      flash("{}".format(form.errors), "danger")
+  return render_template("edit_item.html", item=item, form=form)
   
   return redirect(url_for("home"))
 
