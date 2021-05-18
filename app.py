@@ -47,9 +47,9 @@ def new_item():
   form = NewItemForm()
   if request.method == "POST":
     c.execute("""INSERT INTO items(title, description, price, image, category_id, subcategory_id) VALUES(?,?,?,?,?,?)""", 
-              (request.form.get("title"),
-              request.form.get("description"),
-              float(request.form.get("price")),
+              (form.title.data,
+              form.description.data,
+              float(form.price.data),
               "",
               1,
               1
