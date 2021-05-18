@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, g, flash
 from flask_wtf import FlaskForm
+from flask_wtf.recaptcha import validators
 from wtforms import StringField, TextAreaField, SubmitField, SelectField, FloatField
+from wtforms.validators import InputRequired, DataRequired, Length
 import sqlite3
 
 
@@ -8,9 +10,10 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "secretkey"
 
 class NewItemForm(FlaskForm):
-  title = StringField("Title")
+  title = StringField("Title", validators=[InputRequired("Title is required"), DataRequired("No empty tricks!"), Length(min=2, max=20, message="Title should be between 2 and 20 charachters long")])
   price = FloatField("Price")
-  description = TextAreaField("Description")  
+  description = TextAreaField("Description", validators=[InputRequired("Title is required"), DataRequired(
+      "No empty tricks!"), Length(min=5, max=40, message="Title should be between 5 and 40 charachters long")])
   category = SelectField("Category", coerce=int)
   subcategory = SelectField("Subcategory", coerce=int)
   submit = SubmitField("Submit")
