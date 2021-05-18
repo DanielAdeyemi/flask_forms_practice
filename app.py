@@ -9,12 +9,12 @@ def home():
   c = conn.cursor()
 
   items_from_db = c.execute("""SELECT 
-                  i.id, i.titile, i.description, i.image, c.name, s.name
+                  i.id, i.title, i.description, i.price, i.image, c.name, s.name
                   FROM
                   items AS i
                   INNER JOIN categories AS c ON i.category_id = c.id
                   INNER JOIN subcategories AS s ON i.subcategory_id = s.id
-                  ORDERED BY i.id DESC
+                  ORDER BY i.id DESC
   """)
 
   items = []

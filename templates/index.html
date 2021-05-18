@@ -10,6 +10,8 @@
     </div>
     <div class="col-lg-9">
       <div class="row my-5 card-wrapper">
+        {%if items%}
+        {% for item in items %}
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card h-100">
               <div class="embed-responsive embed-responsive-16by9">
@@ -19,54 +21,20 @@
               </div>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#">Item title</a>
+                  <a href="#">{{ item.title }}</a>
                 </h4>
-                <h5>$2.00</h5>
-                <p class="card-text">Description</p>
+                <h5>{{ "$%.2f" | format(item.price) }}</h5>
+                <p class="card-text">{{ item.description }}</p>
               </div>
               <div class="card-footer">
-                <small class="text-muted">Category -> Subcategory</small>
+                <small class="text-muted">{{item.category}} -> {{item.subcategory}}</small>
               </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-              <div class="embed-responsive embed-responsive-16by9">
-                <a href="#">
-                  <img class="card-img-top embed-responsive-item" src="{{ url_for('static', filename='images/placeholder.png') }}">
-                </a>
-              </div>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item title</a>
-                </h4>
-                <h5>$2.00</h5>
-                <p class="card-text">Description</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Category -> Subcategory</small>
-              </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-              <div class="embed-responsive embed-responsive-16by9">
-                <a href="#">
-                  <img class="card-img-top embed-responsive-item" src="{{ url_for('static', filename='images/placeholder.png') }}">
-                </a>
-              </div>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item title</a>
-                </h4>
-                <h5>$2.00</h5>
-                <p class="card-text">Description</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Category -> Subcategory</small>
-              </div>
-            </div>
-        </div>
+        {% endfor %}
+        {% else %}
+        <h1 class="offset-lg-3">No items yet</h1>
+        {% endif %}
       </div>
     </div>
   </div>
