@@ -110,6 +110,27 @@ def item(item_id):
     return render_template("item.html", item=item, deleteItemForm=deleteItemForm)
   return redirect(url_for("home"))
 
+@app.route("/item/<item_id>/edit", methods=["GET", "POST"])
+def edit_item(item_id):
+  conn = get_db()
+  c = conn.cursor()
+  item_from_db = c.execute("SELECT * FROM items WHERE id = ?", (item_id))
+  row = c.fetchone()
+  try:
+    item = {
+      "id": row[0],
+      "title": row[1],
+      "description": row[2],
+      "price": row[3],
+      "image": row[4]
+    }
+  except:
+    item = {}
+  if item:
+    return render_template("edit_item.html")
+  
+  return redirect(url_for("home"))
+
 @app.route("/item/<item_id>/delete", methods=["POST"])
 def delete_item(item_id):
   conn = get_db()
