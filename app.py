@@ -47,14 +47,22 @@ def new_item():
   conn = get_db()
   c = conn.cursor()
   form = NewItemForm()
+  c.execute("SELECT id, name FROM categories")
+  categories = c.fetchall()
+  form.category.choices = categories
+
+  c.execute("""SELECT id, name FROM subcategories WHERE category_id = ?""", (1,))
+  subcategories = c.fetchall()
+  form.subcategory.choices = subcategories
+
   if request.method == "POST":
     c.execute("""INSERT INTO items(title, description, price, image, category_id, subcategory_id) VALUES(?,?,?,?,?,?)""", 
               (form.title.data,
               form.description.data,
               float(form.price.data),
               "",
-              1,
-              1
+              form.category.data,
+              form.subcategory.data
               ))
     conn.commit()
     flash("Item {} has been successfully created".format(request.form.get("title")), "success")
